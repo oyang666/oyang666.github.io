@@ -1,0 +1,153 @@
+---
+title: "my_personal_website"
+---
+---
+title: "我的 Quarto 报告"
+author: "oyang666"
+date: "2026年3月13日"
+format: html
+---
+
+# 欢迎来到我的 Quarto 报告
+
+这是一个关于我的 Quarto 网站的介绍。
+
+## 全球GDP动态排名(自己手搓的一个小网站,数据来源于网络)
+
+这里嵌入了我的Python脚本生成的动态柱状图。
+
+<iframe src="data/global_gdp_ranking.html" width="100%" height="600px" frameborder="0"></iframe>
+
+---
+
+## 其他内容-源码等.
+
+
+```{python}
+
+
+---
+
+from collections import defaultdict
+    from pyecharts.charts import Bar, Timeline
+    from pyecharts.options import (
+        TitleOpts,
+        LabelOpts,
+        AxisOpts,
+        LegendOpts,
+        ToolboxOpts,
+        InitOpts,
+    )
+    from pyecharts.globals import ThemeType
+
+
+    def main():
+        
+        with open(data/global_gdp_ranking.html, "r", encoding="GB2312") as f:
+            data_lines = f.readlines()
+
+        # 2. 删除表头
+        data_lines.pop(0)
+
+        # 3. 组织数据：year -> [[country, gdp], ...]
+        data_dict = defaultdict(list)
+
+        for line in data_lines:
+            parts = line.strip().split(",")
+            year = int(parts[0])
+            country = parts[1]
+            gdp = float(parts[2])
+            data_dict[year].append([country, gdp])
+
+        # 4. 创建时间线对象（设置主题和画布大小）
+        timeline = Timeline(
+            init_opts=InitOpts(
+                width="100%",      # 页面宽度充满
+                height="600px",    # 高度可按需要调整
+                theme=ThemeType.LIGHT,
+            )
+        )
+
+        # 5. 按年份排序
+        sorted_year_list = sorted(data_dict.keys())
+
+        for year in sorted_year_list:
+            # 按 GDP 降序
+            data_dict[year].sort(key=lambda element: element[1], reverse=True)
+
+            # 取前 8 名
+            year_data = data_dict[year][:8]
+
+            # 准备 X/Y 轴数据
+            countries = []
+            gdps = []
+            for country, gdp in year_data:
+                countries.append(country)
+                gdps.append(round(gdp / 1e8, 2))  # 转为“亿”，保留两位小数
+
+            # 为了让最大的在最上面，反转顺序
+            countries.reverse()
+            gdps.reverse()
+
+            # 构建柱状图
+            bar_chart = Bar()
+            bar_chart.add_xaxis(countries)
+            bar_chart.add_yaxis(
+                "GDP(亿)",
+                gdps,
+                label_opts=LabelOpts(position="right"),
+            )
+
+            # 将 XY 轴反转 -> 横向条形图
+            bar_chart.reversal_axis()
+
+            # 设置全局配置：轴位置、标题、工具箱等
+            bar_chart.set_global_opts(
+                title_opts=TitleOpts(
+                    title=f"{year}年全球前8的GDP数据",
+                    pos_left="center",
+                    pos_top="5%",
+                ),
+                xaxis_opts=AxisOpts(
+                    name="GDP(亿)",
+                    position="bottom",
+                    axislabel_opts=dict(formatter="{value}"),
+                ),
+                yaxis_opts=AxisOpts(
+                    name="国家/地区",
+                    position="left", 
+                ),
+                legend_opts=LegendOpts(is_show=False),  # 单系列可以隐藏图例
+                toolbox_opts=ToolboxOpts(is_show=True),
+            )
+
+            # 设置系列层面的样式与动画，让过渡更丝滑
+            bar_chart.set_series_opts(
+                label_opts=LabelOpts(position="right"),
+            )
+
+            # 动画参数：整体放在 option 顶层
+            bar_chart.options["animation"] = True
+            bar_chart.options["animationDurationUpdate"] = 600   # 更新动画时长
+            bar_chart.options["animationEasingUpdate"] = "cubicOut"  # 缓动
+
+            # 加入时间线
+            timeline.add(bar_chart, str(year))
+
+        # 6. 设置时间线属性
+        timeline.add_schema(
+            play_interval=600,       # 每一帧间隔（毫秒）
+            is_auto_play=True,       # 自动播放
+            is_timeline_show=True,   # 显示时间轴
+            is_loop_play=False,      # 播放到最后一年停止
+            label_opts=LabelOpts(color="#000"),
+        )
+
+        # 7. 渲染
+        # 在这里不进行文件渲染，因为我们只是展示代码
+        # timeline.render("global_gdp_ranking.html")
+
+
+    if __name__ == "__main__":
+        main()
+

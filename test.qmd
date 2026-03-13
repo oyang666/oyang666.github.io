@@ -1,0 +1,22 @@
+---
+title: "测试代码块选项"
+---
+
+# Quarto 代码块选项测试页面
+
+这是一个非常简单的 Python 代码块，用于测试 Quarto 的 `#|` 选项是否生效。
+
+```{python}
+#| label: simple-test
+#| echo: true
+#| eval: false
+#| code-line-numbers: true
+#| code-fold: true
+#| code-summary: "点击展开/折叠代码"
+#| copy: true
+#| code-tools: true
+#|
+# Python 示例代码
+message = "Hello from Quarto!"
+for i in range(3):
+    print(f"Loop {i}: {message}")
