@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="oyang666">
 
-<title>测试代码块选项 – my_personal_website</title>
+<title>我的 Quarto 报告 – my_personal_website</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -92,12 +93,12 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
-<span class="menu-text">这是标题</span></a>
+<span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -115,7 +116,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#quarto-代码块选项测试页面" id="toc-quarto-代码块选项测试页面" class="nav-link active" data-scroll-target="#quarto-代码块选项测试页面">Quarto 代码块选项测试页面</a></li>
+  <li><a href="#欢迎来到我的-quarto-报告" id="toc-欢迎来到我的-quarto-报告" class="nav-link active" data-scroll-target="#欢迎来到我的-quarto-报告">欢迎来到我的 Quarto 报告</a>
+  <ul class="collapse">
+  <li><a href="#全球gdp动态排名自己手搓的一个小网站数据来源于网络" id="toc-全球gdp动态排名自己手搓的一个小网站数据来源于网络" class="nav-link" data-scroll-target="#全球gdp动态排名自己手搓的一个小网站数据来源于网络">全球GDP动态排名(自己手搓的一个小网站,数据来源于网络)</a></li>
+  <li><a href="#其他内容-源码等." id="toc-其他内容-源码等." class="nav-link" data-scroll-target="#其他内容-源码等.">其他内容-源码等.</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -124,14 +129,26 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">测试代码块选项</h1>
+<h1 class="title">我的 Quarto 报告</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>oyang666 </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年3月13日</p>
+    </div>
+  </div>
   
     
   </div>
@@ -141,12 +158,132 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="quarto-代码块选项测试页面" class="level1">
-<h1>Quarto 代码块选项测试页面</h1>
-<p>这是一个非常简单的 Python 代码块，用于测试 Quarto 的 <code>#|</code> 选项是否生效。</p>
-<p>#| label: simple-test #| echo: true #| eval: false #| code-line-numbers: true #| code-fold: true #| code-summary: “点击展开/折叠代码” #| copy: true #| code-tools: true #| # Python 示例代码 message = “Hello from Quarto!” for i in range(3): print(f”Loop {i}: {message}“)</p>
+<section id="欢迎来到我的-quarto-报告" class="level1">
+<h1>欢迎来到我的 Quarto 报告</h1>
+<p>这是一个关于我的 Quarto 网站的介绍。</p>
+<section id="全球gdp动态排名自己手搓的一个小网站数据来源于网络" class="level2">
+<h2 class="anchored" data-anchor-id="全球gdp动态排名自己手搓的一个小网站数据来源于网络">全球GDP动态排名(自己手搓的一个小网站,数据来源于网络)</h2>
+<p>这里嵌入了我的Python脚本生成的动态柱状图。</p>
+<iframe src="data/global_gdp_ranking.html" width="100%" height="600px" frameborder="0">
+</iframe>
+<hr>
+</section>
+<section id="其他内容-源码等." class="level2">
+<h2 class="anchored" data-anchor-id="其他内容-源码等.">其他内容-源码等.</h2>
+<hr>
+<p>from collections import defaultdict from pyecharts.charts import Bar, Timeline from pyecharts.options import ( TitleOpts, LabelOpts, AxisOpts, LegendOpts, ToolboxOpts, InitOpts, ) from pyecharts.globals import ThemeType</p>
+<pre><code>def main():
+    
+    with open(data/global_gdp_ranking.html, "r", encoding="GB2312") as f:
+        data_lines = f.readlines()
+
+    # 2. 删除表头
+    data_lines.pop(0)
+
+    # 3. 组织数据：year -&gt; [[country, gdp], ...]
+    data_dict = defaultdict(list)
+
+    for line in data_lines:
+        parts = line.strip().split(",")
+        year = int(parts[0])
+        country = parts[1]
+        gdp = float(parts[2])
+        data_dict[year].append([country, gdp])
+
+    # 4. 创建时间线对象（设置主题和画布大小）
+    timeline = Timeline(
+        init_opts=InitOpts(
+            width="100%",      # 页面宽度充满
+            height="600px",    # 高度可按需要调整
+            theme=ThemeType.LIGHT,
+        )
+    )
+
+    # 5. 按年份排序
+    sorted_year_list = sorted(data_dict.keys())
+
+    for year in sorted_year_list:
+        # 按 GDP 降序
+        data_dict[year].sort(key=lambda element: element[1], reverse=True)
+
+        # 取前 8 名
+        year_data = data_dict[year][:8]
+
+        # 准备 X/Y 轴数据
+        countries = []
+        gdps = []
+        for country, gdp in year_data:
+            countries.append(country)
+            gdps.append(round(gdp / 1e8, 2))  # 转为“亿”，保留两位小数
+
+        # 为了让最大的在最上面，反转顺序
+        countries.reverse()
+        gdps.reverse()
+
+        # 构建柱状图
+        bar_chart = Bar()
+        bar_chart.add_xaxis(countries)
+        bar_chart.add_yaxis(
+            "GDP(亿)",
+            gdps,
+            label_opts=LabelOpts(position="right"),
+        )
+
+        # 将 XY 轴反转 -&gt; 横向条形图
+        bar_chart.reversal_axis()
+
+        # 设置全局配置：轴位置、标题、工具箱等
+        bar_chart.set_global_opts(
+            title_opts=TitleOpts(
+                title=f"{year}年全球前8的GDP数据",
+                pos_left="center",
+                pos_top="5%",
+            ),
+            xaxis_opts=AxisOpts(
+                name="GDP(亿)",
+                position="bottom",
+                axislabel_opts=dict(formatter="{value}"),
+            ),
+            yaxis_opts=AxisOpts(
+                name="国家/地区",
+                position="left", 
+            ),
+            legend_opts=LegendOpts(is_show=False),  # 单系列可以隐藏图例
+            toolbox_opts=ToolboxOpts(is_show=True),
+        )
+
+        # 设置系列层面的样式与动画，让过渡更丝滑
+        bar_chart.set_series_opts(
+            label_opts=LabelOpts(position="right"),
+        )
+
+        # 动画参数：整体放在 option 顶层
+        bar_chart.options["animation"] = True
+        bar_chart.options["animationDurationUpdate"] = 600   # 更新动画时长
+        bar_chart.options["animationEasingUpdate"] = "cubicOut"  # 缓动
+
+        # 加入时间线
+        timeline.add(bar_chart, str(year))
+
+    # 6. 设置时间线属性
+    timeline.add_schema(
+        play_interval=600,       # 每一帧间隔（毫秒）
+        is_auto_play=True,       # 自动播放
+        is_timeline_show=True,   # 显示时间轴
+        is_loop_play=False,      # 播放到最后一年停止
+        label_opts=LabelOpts(color="#000"),
+    )
+
+    # 7. 渲染
+    # 在这里不进行文件渲染，因为我们只是展示代码
+    # timeline.render("global_gdp_ranking.html")
 
 
+if __name__ == "__main__":
+    main()</code></pre>
+
+
+</section>
 </section>
 
 </main> <!-- /main -->
