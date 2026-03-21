@@ -1,0 +1,103 @@
+{
+	"version": 1,
+	"base_image": "registry.codeocean.com/codeocean/py-r:python3.10.12-R4.3.2-JupyterLab4.0.10-RStudiorstudio-server-2023.12.0-369-ubuntu22.04",
+	"options": {},
+	"installers": {
+		"conda": {
+			"packages": [
+				{
+					"name": "matplotlib",
+					"version": "3.8.2"
+				},
+				{
+					"name": "numpy",
+					"version": "1.26.4"
+				}
+			]
+		},
+		"rcran": {
+			"packages": [
+				{
+					"name": "UpSetR",
+					"version": "1.4.0"
+				},
+				{
+					"name": "ade4",
+					"version": "1.7-22"
+				},
+				{
+					"name": "cowplot",
+					"version": "1.1.3"
+				},
+				{
+					"name": "data.table",
+					"version": "1.14.8"
+				},
+				{
+					"name": "dplyr",
+					"version": "1.1.4"
+				},
+				{
+					"name": "future.apply",
+					"version": "1.11.2"
+				},
+				{
+					"name": "ggplot2",
+					"version": "3.5.2"
+				},
+				{
+					"name": "ggpmisc",
+					"version": "0.6.0"
+				},
+				{
+					"name": "ggpointdensity",
+					"version": "0.1.0"
+				},
+				{
+					"name": "ggpubr",
+					"version": "0.6.0"
+				},
+				{
+					"name": "lattice",
+					"version": "0.22-6"
+				},
+				{
+					"name": "lessR",
+					"version": "4.3.9"
+				},
+				{
+					"name": "magrittr",
+					"version": "2.0.3"
+				},
+				{
+					"name": "patchwork",
+					"version": "1.2.0"
+				},
+				{
+					"name": "pbapply",
+					"version": "1.7-2"
+				},
+				{
+					"name": "permute",
+					"version": "0.9-7"
+				},
+				{
+					"name": "readxl",
+					"version": "1.4.3"
+				},
+				{
+					"name": "scales",
+					"version": "1.4.0"
+				},
+				{
+					"name": "treemapify",
+					"version": "2.5.6"
+				},
+				{
+					"name": "vegan",
+					"version": "2.6-6.1"
+				}
+			]
+		}
+	}
+}

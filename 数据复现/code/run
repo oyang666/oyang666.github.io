@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -ex
+ 
+jupyter nbconvert \
+--to 'html' \
+--ExecutePreprocessor.allow_errors=True \
+--ExecutePreprocessor.timeout=-1 \
+--FilesWriter.build_directory=../results \
+--execute 'Figure 1.ipynb'
+
+jupyter nbconvert \
+--to 'html' \
+--ExecutePreprocessor.allow_errors=True \
+--ExecutePreprocessor.timeout=-1 \
+--FilesWriter.build_directory=../results \
+--execute 'Figure 2.ipynb'
+
+
+
+ Rscript Figure2a.R "$@"
+ Rscript Figure3.R "$@"
+ Rscript Figure4.R "$@"
+
+# sp
+#Rscript Figure_s7_s9.R "$@"
+ 
+ 

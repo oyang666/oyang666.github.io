@@ -1,0 +1,26 @@
+metadata_version: 1
+name: Anthropogenic climate change may lead to reduction in global diazotroph diversity
+description: The data and code associated with the paper "Anthropogenic climate change
+  may lead to reduction in global diazotroph diversity".
+authors:
+- name: Peng Li
+  affiliations:
+  - name: Shandong University
+- name: Zhuo Pan
+  affiliations:
+  - name: Henan Cancer Hospital
+- name: Jingyu Sun
+  affiliations:
+  - name: Shandong University
+- name: Yu Geng
+  affiliations:
+  - name: Shandong University
+- name: Yiru Jiang
+  affiliations:
+  - name: Shandong University
+- name: Yue-zhong Li
+  affiliations:
+  - name: Shandong University
+corresponding_contributor:
+  name: Zheng Zhang
+  email: zhangzheng@sdu.edu.cn
